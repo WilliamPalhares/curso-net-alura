@@ -1,0 +1,37 @@
+version: "3.7"
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: "12345"
+    networks:
+      - monitoring
+    ports:
+      - "15432:5432"
+    volumes:
+      - postgres-volume:/var/lib/postgres
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "williamcorreia.palhares@halliburton.com"
+      PGADMIN_DEFAULT_PASSWORD: "12345"
+    volumes:
+      - C:\Projetos\Curso\Compose:/bkp
+    ports:
+      - "16543:80"
+    depends_on:
+      - postgres
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+
+volumes:
+  postgres-volume:
+    external: true
+
